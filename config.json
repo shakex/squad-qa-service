@@ -1,0 +1,4 @@
+{
+  "model_name": "luhua/chinese_pretrain_mrc_roberta_wwm_ext_large",
+  "use_gpu": false
+}
