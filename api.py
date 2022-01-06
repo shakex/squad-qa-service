@@ -3,6 +3,7 @@ from fastapi import FastAPI, Depends
 from model import Model, get_model
 from loguru import logger
 from pydantic import BaseModel
+import time
 
 app = FastAPI()
 
@@ -21,8 +22,9 @@ async def question_answering(request: QuestionAnsweringRequest, model: Model = D
     logger.info('开始调用阅读理解模型进行推理')
     logger.info(f'Question: {request.question}')
     logger.info(f'Context: {request.context}')
+    infer_start = time.time()
     answer = model.inference(request.question, request.context)
-    logger.info(f'Answer: {answer}')
+    logger.info(f'Answer: {answer}, infer_time: {time.time() - infer_start}')
     return QuestionAnsweringResponse(
         answer=answer
     )
