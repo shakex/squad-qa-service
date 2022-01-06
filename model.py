@@ -9,9 +9,9 @@ with open(r"config.json") as json_file:
 
 class Model:
     def __init__(self):
-        self.device = torch.device("cuda:0" if cfg.get('qa_server_use_gpu') and torch.cuda.is_available() else "cpu")
-        self.tokenizer = AutoTokenizer.from_pretrained(config['model_name'])
-        qa_model = AutoModelForQuestionAnswering.from_pretrained(config['model_name'])
+        self.device = torch.device("cuda:0" if config['use_gpu'] and torch.cuda.is_available() else "cpu")
+        self.tokenizer = AutoTokenizer.from_pretrained(config['model'])
+        qa_model = AutoModelForQuestionAnswering.from_pretrained(config['model'])
         qa_model = qa_model.eval()
         self.model = qa_model.to(self.device)
 
@@ -36,5 +36,8 @@ class Model:
         return answer
 
 
+model = Model()
+
+
 def get_model():
-    return Model()
+    return model
