@@ -1,5 +1,8 @@
 {
-  "model": "luhua/chinese_pretrain_mrc_roberta_wwm_ext_large",
+  "tokenizer": "uer/roberta-base-chinese-extractive-qa",
+  "model": "/srv/www/pri_contract/model/roberta-base-chinese-extractive-qa-optimized-quantized.onnx",
   "use_gpu": false,
-  "add_special_tokens": true
+  "add_special_tokens": true,
+  "num_threads": 3,
+  "use_onnx_quant": true
 }
