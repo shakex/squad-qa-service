@@ -1,6 +1,6 @@
 {
-  "tokenizer": "uer/roberta-base-chinese-extractive-qa",
-  "model": "/srv/www/pri_contract/model/roberta-base-chinese-extractive-qa-optimized-quantized.onnx",
+  "tokenizer": "/model/roberta-base-chinese-extractive-qa",
+  "model": "/model/roberta-base-chinese-extractive-qa/roberta-base-chinese-extractive-qa-optimized-quantized.onnx",
   "use_gpu": false,
   "add_special_tokens": true,
   "num_threads": 3,

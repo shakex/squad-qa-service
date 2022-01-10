@@ -6,7 +6,7 @@ import numpy as np
 from loguru import logger
 import onnxruntime as ort
 from onnxruntime import InferenceSession, SessionOptions
-from transformers import AutoTokenizer, AutoModelForQuestionAnswering
+from transformers import AutoTokenizer
 
 with open(r"config.json") as json_file:
     config = json.load(json_file)
@@ -73,9 +73,6 @@ class Model:
             self.tokenizer.convert_ids_to_tokens(input_ids[answer_start:answer_stop])).replace(' ', '').replace('[UNK]',
                                                                                                                 '')
         return answer
-
-
-model = Model()
 
 
 model = Model()
