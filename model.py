@@ -38,7 +38,8 @@ class Model:
         # qa_model = qa_model.eval()
 
         # test onnx
-        qa_model = create_model_for_provider(config['model'], num_threads=config['num_threads'], use_onnx_quant=config['use_onnx_quant'])
+        qa_model = create_model_for_provider(config['model'], num_threads=config['num_threads'],
+                                             use_onnx_quant=config['use_onnx_quant'])
 
         self.model = qa_model
         # self.model = lsi.Bert('/srv/www/gzhd/xiekai/cs-document-ai/docparser/nlp/lightseq_chinese_pretrain_mrc_roberta_wwm_ext_large.hdf5', 128)
@@ -68,10 +69,33 @@ class Model:
         logger.info('end model run [onnx]')
         answer_start = np.argmax(answer_start_scores)
         answer_stop = np.argmax(answer_end_scores) + 1
+        logger.info(f'Span: ({answer_start},{answer_stop})')
 
-        answer = self.tokenizer.convert_tokens_to_string(
-            self.tokenizer.convert_ids_to_tokens(input_ids[answer_start:answer_stop])).replace(' ', '').replace('[UNK]',
-                                                                                                                '')
+        answer = ''
+        if answer_start == 0 and answer_stop != 1:
+            # start未预测成功
+            answer = self.tokenizer.convert_tokens_to_string(
+                self.tokenizer.convert_ids_to_tokens(input_ids[answer_stop-10:answer_stop])).replace(' ', '').replace(
+                '[UNK]', '')
+        elif answer_start != 0 and answer_stop == 1:
+            # stop未预测成功
+            answer = self.tokenizer.convert_tokens_to_string(
+                self.tokenizer.convert_ids_to_tokens(input_ids[answer_start:answer_start+10])).replace(' ', '').replace(
+                '[UNK]', '')
+        elif answer_start == 0 and answer_stop == 1:
+            # start和stop都未预测成功
+            answer = ''
+        else:
+            if answer_start < answer_stop:
+                answer = self.tokenizer.convert_tokens_to_string(
+                    self.tokenizer.convert_ids_to_tokens(input_ids[answer_start:answer_stop])).replace(' ', '').replace('[UNK]',
+                                                                                                                    '')
+            else:
+                # start > stop，认为stop预测错误
+                answer = self.tokenizer.convert_tokens_to_string(
+                    self.tokenizer.convert_ids_to_tokens(input_ids[answer_start:answer_start + 10])).replace(' ',
+                                                                                                             '').replace(
+                    '[UNK]', '')
         return answer
 
 
