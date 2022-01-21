@@ -2,7 +2,6 @@
 import json
 import torch
 import numpy as np
-# import lightseq.inference as lsi
 from loguru import logger
 import onnxruntime as ort
 from onnxruntime import InferenceSession, SessionOptions
@@ -13,6 +12,17 @@ with open(r"config.json") as json_file:
 
 
 def create_model_for_provider(model_path: str, num_threads: int = 1, use_onnx_quant: bool = False) -> InferenceSession:
+    '''
+    Loads the model and prepares the CPU backend.
+    
+    :param model_path: Path to the ONNX model
+    :type model_path: str
+    :param num_threads: The number of threads to use for the CPU backend, defaults to 1
+    :type num_threads: int (optional)
+    :param use_onnx_quant: bool = False, defaults to False
+    :type use_onnx_quant: bool (optional)
+    :return: The InferenceSession object.
+    '''
     # Few properties that might have an impact on performances (provided by MS)
     options = SessionOptions()
     options.intra_op_num_threads = num_threads
@@ -42,7 +52,6 @@ class Model:
                                              use_onnx_quant=config['use_onnx_quant'])
 
         self.model = qa_model
-        # self.model = lsi.Bert('/srv/www/gzhd/xiekai/cs-document-ai/docparser/nlp/lightseq_chinese_pretrain_mrc_roberta_wwm_ext_large.hdf5', 128)
 
     def inference(self, question, context):
         inputs = self.tokenizer(
