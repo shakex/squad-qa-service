@@ -1,6 +1,7 @@
 {
   "tokenizer": "/model/roberta-base-chinese-extractive-qa",
   "model": "/model/roberta-base-chinese-extractive-qa/roberta-base-chinese-extractive-qa-optimized-quantized.onnx",
+  "log_dir": "/log/",
   "use_gpu": false,
   "add_special_tokens": true,
   "num_threads": 3,
