@@ -78,9 +78,9 @@ class Model:
 
         # test onnx
         inputs_onnx = {k: v.cpu().detach().numpy() for k, v in inputs.items()}
-        logger.info('start model run [onnx]')
+        # logger.info('start model run [onnx]')
         answer_start_scores, answer_end_scores = self.model.run(None, dict(inputs_onnx))
-        logger.info('end model run [onnx]')
+        # logger.info('end model run [onnx]')
         answer_start = np.argmax(answer_start_scores)
         answer_stop = np.argmax(answer_end_scores) + 1
         logger.info(f'Span: ({answer_start},{answer_stop})')
