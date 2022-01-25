@@ -44,6 +44,7 @@ class Model:
     def __init__(self):
         self.device = torch.device("cuda:0" if config['use_gpu'] and torch.cuda.is_available() else "cpu")
         self.tokenizer = AutoTokenizer.from_pretrained(config['tokenizer'])
+        logger.info('load tokenizer success')
 
         # test torch
         # qa_model = AutoModelForQuestionAnswering.from_pretrained(config['tokenizer'])
@@ -52,8 +53,10 @@ class Model:
         # test onnx
         qa_model = create_model_for_provider(config['model'], num_threads=config['num_threads'],
                                              use_onnx_quant=config['use_onnx_quant'])
+        logger.info('load model success')
 
         self.model = qa_model
+        
 
     def inference(self, question, context):
         inputs = self.tokenizer(
