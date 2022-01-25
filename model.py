@@ -6,10 +6,10 @@ from loguru import logger
 import onnxruntime as ort
 from onnxruntime import InferenceSession, SessionOptions
 from transformers import AutoTokenizer
-from conf import log_config
+import log_config
 
 log_config.config()
-with open(r"conf/config.json") as json_file:
+with open(r"config.json") as json_file:
     config = json.load(json_file)
 
 

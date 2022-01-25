@@ -1,9 +1,10 @@
 import os
 import time
+import json
 from loguru import logger
 
-# 每小时生成一个
-from conf.config import Config
+with open(r"config.json") as json_file:
+    Config = json.load(json_file)
 
 
 def should_rotate_by_hour(message, file):
@@ -33,5 +34,6 @@ def config():
     logs_dir = os.path.join(file_path, "../logs/")
     if Config.get('log_dir'):
         logs_dir = Config.get('log_dir')
-    logs_path = logs_dir + "file-{time:YYYY-MM-DD}.log"
+    logs_path = os.path.join(logs_dir, "file-{time:YYYY-MM-DD}.log")
+    print(logs_path)
     logger.add(logs_path, rotation=should_rotate_by_day, enqueue=True)
