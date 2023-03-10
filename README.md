@@ -3,7 +3,7 @@
 
 ## Pre
 ```bash
-git clone git@gitlab.i.noahgroup.com:innovation/transformers-qa-service.git
+git clone https://github.com/shakex/squad-qa-service.git
 pip install -r requirements.txt
 ```
 
